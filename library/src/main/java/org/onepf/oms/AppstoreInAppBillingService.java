@@ -41,7 +41,7 @@ public interface AppstoreInAppBillingService {
      */
     void startSetup(final IabHelper.OnIabSetupFinishedListener listener);
 
-    void launchPurchaseFlow(Activity act, String sku, String itemType, int requestCode, IabHelper.OnIabPurchaseFinishedListener listener, String extraData);
+    void launchPurchaseFlow(Activity act, String sku, String itemType, List<String> oldSkus, int requestCode, IabHelper.OnIabPurchaseFinishedListener listener, String extraData) throws IabHelper.IabAsyncInProgressException;
 
     boolean handleActivityResult(int requestCode, int resultCode, Intent data);
 

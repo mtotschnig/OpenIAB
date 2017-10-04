@@ -326,6 +326,7 @@ public class AmazonAppstoreBillingService implements AppstoreInAppBillingService
             final Activity activity,
             final String sku,
             final String itemType,
+            final List<String> oldSkus,
             final int requestCode,
             final IabHelper.OnIabPurchaseFinishedListener listener,
             final String extraData) {

@@ -16,13 +16,17 @@
 
 package org.onepf.oms.appstore;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.ResolveInfo;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
+
+import com.sec.android.iap.IAPConnector;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,17 +46,13 @@ import org.onepf.oms.appstore.googleUtils.SkuDetails;
 import org.onepf.oms.util.CollectionUtils;
 import org.onepf.oms.util.Logger;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.ResolveInfo;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
-
-import com.sec.android.iap.IAPConnector;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author Ruslan Sayfutdinov
@@ -239,7 +239,7 @@ public class SamsungAppsBillingService implements AppstoreInAppBillingService {
     }
 
     @Override
-    public void launchPurchaseFlow(@NotNull Activity activity, @NotNull String sku, String itemType, int requestCode, OnIabPurchaseFinishedListener listener, String extraData) {
+    public void launchPurchaseFlow(@NotNull Activity activity, @NotNull String sku, String itemType, List<String> oldSkus, int requestCode, OnIabPurchaseFinishedListener listener, String extraData) {
         String itemGroupId = getItemGroupId(sku);
         String itemId = getItemId(sku);
 

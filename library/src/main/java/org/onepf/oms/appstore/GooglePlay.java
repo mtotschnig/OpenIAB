@@ -16,11 +16,16 @@
 
 package org.onepf.oms.appstore;
 
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.IBinder;
+import android.os.RemoteException;
+
+import com.android.vending.billing.IInAppBillingService;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,15 +38,8 @@ import org.onepf.oms.util.CollectionUtils;
 import org.onepf.oms.util.Logger;
 import org.onepf.oms.util.Utils;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.os.IBinder;
-import android.os.RemoteException;
-
-import com.android.vending.billing.IInAppBillingService;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Author: Ruslan Sayfutdinov
@@ -152,7 +150,7 @@ public class GooglePlay extends DefaultAppstore {
     @Override
     public AppstoreInAppBillingService getInAppBillingService() {
         if (mBillingService == null) {
-            mBillingService = new IabHelper(context, publicKey, this);
+            mBillingService = new IabHelper(context, publicKey);
         }
         return mBillingService;
     }

@@ -17,17 +17,15 @@
 package org.onepf.oms.appstore;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.text.TextUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.onepf.oms.Appstore;
 import org.onepf.oms.AppstoreInAppBillingService;
 import org.onepf.oms.DefaultAppstore;
 import org.onepf.oms.OpenIabHelper;
-
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.text.TextUtils;
-
 import org.onepf.oms.SkuManager;
 import org.onepf.oms.appstore.googleUtils.IabException;
 import org.onepf.oms.appstore.googleUtils.IabHelper;

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.onepf.oms.OpenIabHelper;
 
 /**
  * Represents an in-app billing purchase.
@@ -50,6 +51,10 @@ public class Purchase implements Cloneable {
         if (appstoreName == null)
             throw new IllegalArgumentException("appstoreName must be defined");
         this.appstoreName = appstoreName;
+    }
+
+    public Purchase(String mPurchasingItemType, String purchaseData, String dataSignature) throws JSONException {
+        this(mPurchasingItemType, purchaseData, dataSignature, OpenIabHelper.NAME_GOOGLE);
     }
 
     public void setOriginalJson(String originalJson) {

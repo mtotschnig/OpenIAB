@@ -83,7 +83,7 @@ public class FortumoBillingService implements AppstoreInAppBillingService {
     }
 
     @Override
-    public void launchPurchaseFlow(@NotNull final Activity act, String sku, String itemType, int requestCode, IabHelper.OnIabPurchaseFinishedListener listener, String extraData) {
+    public void launchPurchaseFlow(@NotNull final Activity act, String sku, String itemType, List<String> oldSkus, int requestCode, IabHelper.OnIabPurchaseFinishedListener listener, String extraData) {
         this.purchaseFinishedListener = listener;
         this.activityRequestCode = requestCode;
         this.developerPayload = extraData;

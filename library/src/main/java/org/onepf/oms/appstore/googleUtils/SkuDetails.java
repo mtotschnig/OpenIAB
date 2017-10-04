@@ -30,6 +30,10 @@ public class SkuDetails {
     String mTitle;
     String mDescription;
     String mJson;
+    long priceAmountMicros;
+    String priceCurrencyCode;
+    String introductoryPrice;
+    long introductoryPriceAmountMicros;
 
     public SkuDetails(String jsonSkuDetails) throws JSONException {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
@@ -59,6 +63,10 @@ public class SkuDetails {
         mPrice = o.optString("price");
         mTitle = o.optString("title");
         mDescription = o.optString("description");
+        priceAmountMicros = o.optLong("price_amount_micros");
+        priceCurrencyCode = o.optString("price_currency_code");
+        introductoryPrice = o.optString("introductoryPrice");
+        introductoryPriceAmountMicros= o.optLong("introductoryPriceAmountMicros");
     }
 
     public String getSku() {
@@ -87,6 +95,22 @@ public class SkuDetails {
 
     public String getJson() {
         return mJson;
+    }
+
+    public long getPriceAmountMicros() {
+        return priceAmountMicros;
+    }
+
+    public String getPriceCurrencyCode() {
+        return priceCurrencyCode;
+    }
+
+    public String getIntroductoryPrice() {
+        return introductoryPrice;
+    }
+
+    public long getIntroductoryPriceAmountMicros() {
+        return introductoryPriceAmountMicros;
     }
 
     public void setSku(String sku) {
