@@ -16,7 +16,8 @@
 
 apply plugin: 'com.android.library'
 //apply plugin: 'robolectric'
-//apply from: 'https://raw.githubusercontent.com/onepf/OPF-mvn-repo/master/OPF-mvn-push.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.mtotschnig'
 
 android {
     compileSdkVersion project.compileSdkVersion
