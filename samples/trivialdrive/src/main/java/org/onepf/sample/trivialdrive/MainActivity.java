@@ -262,7 +262,11 @@ public class MainActivity extends Activity {
          *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use
          *        an empty string, but on a production app you should carefully generate this. */
         String payload = "";
-        mHelper.launchPurchaseFlow(this, InAppConfig.SKU_GAS, RC_REQUEST, mPurchaseFinishedListener, payload);
+        try {
+            mHelper.launchPurchaseFlow(this, InAppConfig.SKU_GAS, IabHelper.ITEM_TYPE_INAPP, null, RC_REQUEST, mPurchaseFinishedListener, payload);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            complain("Another async operation in progress.");
+        }
     }
 
     // User clicked the "Upgrade to Premium" button.
@@ -286,8 +290,12 @@ public class MainActivity extends Activity {
          *        an empty string, but on a production app you should carefully generate this. */
         String payload = "";
 
-        mHelper.launchPurchaseFlow(this, InAppConfig.SKU_PREMIUM, RC_REQUEST,
+        try {
+            mHelper.launchPurchaseFlow(this, InAppConfig.SKU_PREMIUM, IabHelper.ITEM_TYPE_INAPP, null, RC_REQUEST,
                 mPurchaseFinishedListener, payload);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            complain("Another async operation in progress.");
+        }
     }
 
     // "Subscribe to infinite gas" button clicked. Explain to user, then start purchase
@@ -315,9 +323,13 @@ public class MainActivity extends Activity {
 
         setWaitScreen(true);
         Log.d(TAG, "Launching purchase flow for infinite gas subscription.");
-        mHelper.launchPurchaseFlow(this,
-                InAppConfig.SKU_INFINITE_GAS, IabHelper.ITEM_TYPE_SUBS,
+        try {
+            mHelper.launchPurchaseFlow(this,
+                InAppConfig.SKU_INFINITE_GAS, IabHelper.ITEM_TYPE_SUBS, null,
                 RC_REQUEST, mPurchaseFinishedListener, payload);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            complain("Another async operation in progress.");
+        }
     }
 
     @Override
