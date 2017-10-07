@@ -34,7 +34,6 @@ import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.onepf.oms.appstore.AmazonAppstore;
-import org.onepf.oms.appstore.FortumoStore;
 import org.onepf.oms.appstore.GooglePlay;
 import org.onepf.oms.appstore.NokiaStore;
 import org.onepf.oms.appstore.SamsungApps;
@@ -162,12 +161,6 @@ public class OpenIabHelper {
     public static final String NAME_NOKIA = "com.nokia.nstore";
 
     /**
-     * Internal library name for the Fortumo store.
-     * Actually Fortumo is not an application store but for consistency it was wrapped with the common interface.
-     */
-    public static final String NAME_FORTUMO = "com.fortumo.billing";
-
-    /**
      * Internal library name for the Skubit store.
      */
     public static final String NAME_SKUBIT = "com.skubit.android";
@@ -241,15 +234,6 @@ public class OpenIabHelper {
         // Known packages for open stores
         appStorePackageMap.put("com.yandex.store", NAME_YANDEX);
         appStorePackageMap.put("cm.aptoide.pt", NAME_APTOIDE);
-
-        // Knows package independent wrappers
-        appStoreFactoryMap.put(NAME_FORTUMO, new AppstoreFactory() {
-            @NotNull
-            @Override
-            public Appstore get() {
-                return new FortumoStore(context);
-            }
-        });
 
         appStorePackageMap.put(GooglePlay.ANDROID_INSTALLER, NAME_GOOGLE);
         appStoreFactoryMap.put(NAME_GOOGLE, new AppstoreFactory() {
@@ -815,7 +799,6 @@ public class OpenIabHelper {
         checkGoogle();
         checkSamsung();
         checkNokia();
-        checkFortumo();
         checkAmazon();
     }
 
@@ -875,30 +858,6 @@ public class OpenIabHelper {
         }
         Logger.d("checkGoogle() ignoring GooglePlay wrapper.");
         appStoreFactoryMap.remove(NAME_GOOGLE);
-    }
-
-    private void checkFortumo() {
-        boolean fortumoAvailable = false;
-        try {
-            final ClassLoader classLoader = OpenIabHelper.class.getClassLoader();
-            classLoader.loadClass("mp.PaymentRequest");
-            fortumoAvailable = true;
-        } catch (ClassNotFoundException ignore) {
-        }
-        Logger.d("checkFortumo() fortumo sdk available: ", fortumoAvailable);
-        if (fortumoAvailable) {
-            return;
-        }
-
-        final boolean fortumoRequired = options.getAvailableStoreByName(NAME_FORTUMO) != null
-                || options.getAvailableStoreNames().contains(NAME_FORTUMO)
-                || options.getPreferredStoreNames().contains(NAME_FORTUMO);
-        Logger.d("checkFortumo() fortumo billing required: ", fortumoRequired);
-        if (fortumoRequired) {
-            throw new IllegalStateException("You must satisfy fortumo sdk dependency.");
-        }
-        Logger.d("checkFortumo() ignoring fortumo wrapper.");
-        appStoreFactoryMap.remove(NAME_FORTUMO);
     }
 
     private void checkAmazon() {
