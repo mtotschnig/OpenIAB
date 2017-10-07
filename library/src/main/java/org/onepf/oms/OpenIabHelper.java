@@ -186,11 +186,6 @@ public class OpenIabHelper {
      */
     public static final String NAME_SLIDEME = "SlideME";
 
-    /**
-     * Internal library name for Aptoide store.
-     */
-    public static final String NAME_APTOIDE = "cm.aptoide.pt";
-
     private final PackageManager packageManager;
 
     private final Context context;
@@ -233,7 +228,6 @@ public class OpenIabHelper {
     {
         // Known packages for open stores
         appStorePackageMap.put("com.yandex.store", NAME_YANDEX);
-        appStorePackageMap.put("cm.aptoide.pt", NAME_APTOIDE);
 
         appStorePackageMap.put(GooglePlay.ANDROID_INSTALLER, NAME_GOOGLE);
         appStoreFactoryMap.put(NAME_GOOGLE, new AppstoreFactory() {
