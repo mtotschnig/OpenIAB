@@ -1105,29 +1105,44 @@ public class OpenIabHelper {
         if (listener == null) {
             throw new IllegalArgumentException("Inventory listener must be not null");
         }
-        new Thread(new Runnable() {
-            public void run() {
-                IabResult result;
-                Inventory inv = null;
-                try {
-                    inv = queryInventory(querySkuDetails, moreItemSkus, moreSubsSkus);
-                    result = new IabResult(BILLING_RESPONSE_RESULT_OK, "Inventory refresh successful.");
-                } catch (IabException exception) {
-                    result = exception.getResult();
-                    Logger.e("queryInventoryAsync() Error : ", exception);
-                }
-
-                final IabResult result_f = result;
-                final Inventory inv_f = inv;
+        if (this.appStoreBillingService instanceof IabHelper) {
+            try {
+                ((IabHelper) this.appStoreBillingService).queryInventoryAsync(querySkuDetails, moreItemSkus, moreSubsSkus, listener);
+            } catch (IabHelper.IabAsyncInProgressException e) {
                 handler.post(new Runnable() {
                     public void run() {
                         if (setupState == SETUP_RESULT_SUCCESSFUL) {
-                            listener.onQueryInventoryFinished(result_f, inv_f);
+                            listener.onQueryInventoryFinished(new IabResult(BILLING_RESPONSE_RESULT_ERROR, "Another async operation in progress."),
+                                                              null);
                         }
                     }
                 });
             }
-        }).start();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    IabResult result;
+                    Inventory inv = null;
+                    try {
+                        inv = queryInventory(querySkuDetails, moreItemSkus, moreSubsSkus);
+                        result = new IabResult(BILLING_RESPONSE_RESULT_OK, "Inventory refresh successful.");
+                    } catch (IabException exception) {
+                        result = exception.getResult();
+                        Logger.e("queryInventoryAsync() Error : ", exception);
+                    }
+
+                    final IabResult result_f = result;
+                    final Inventory inv_f = inv;
+                    handler.post(new Runnable() {
+                        public void run() {
+                            if (setupState == SETUP_RESULT_SUCCESSFUL) {
+                                listener.onQueryInventoryFinished(result_f, inv_f);
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 
     public void consume(@NotNull Purchase purchase) throws IabException {
