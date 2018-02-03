@@ -300,7 +300,7 @@ public class AmazonAppstoreBillingService implements AppstoreInAppBillingService
     @NotNull
     private SkuDetails getSkuDetails(@NotNull final Product product) {
         final String sku = product.getSku();
-        final String price = product.getPrice().toString();
+        final String price = product.getPrice();
         final String title = product.getTitle();
         final String description = product.getDescription();
         final ProductType productType = product.getProductType();
@@ -319,7 +319,7 @@ public class AmazonAppstoreBillingService implements AppstoreInAppBillingService
      * <br>
      * This map is intended to workaround this issue.
      */
-    private final Map<RequestId, String> requestSkuMap = new HashMap<RequestId, String>();
+    private final Map<RequestId, String> requestSkuMap = new HashMap<>();
 
     @Override
     public void launchPurchaseFlow(

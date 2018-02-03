@@ -662,6 +662,9 @@ public class IabHelper implements AppstoreInAppBillingService {
         catch (JSONException e) {
             throw new IabException(IABHELPER_BAD_RESPONSE, "Error parsing JSON response while refreshing inventory.", e);
         }
+        catch (NullPointerException e) {
+            throw new IabException(IABHELPER_UNKNOWN_ERROR, "NPE while querying inventory", e);
+        }
     }
 
     /**
